@@ -25,10 +25,18 @@ def makeLinePrintable(valuesList,collumnSize):
     the deeper list repressents all the values in each line
     """
     middleList = []
-    for value in range(valuesList):
+    for value in valuesList:
         middleList.append(makeSquarePrintable(value,collumnSize))
     
     finalList = invertDimentions(middleList)
+    return finalList
+
+def generateHeader(originX,collumnAmmount):
+    pass
+
+
+
+
 
 def invertDimentions(liste):
     """
