@@ -1,9 +1,14 @@
-from terminal import *  #¯\_(ツ)_/¯
+from terminal import Tbackground  #¯\_(ツ)_/¯
 import os
 
-def printscreen(spreadsheet,originX,originY):
+def printscreen(spreadsheet,originX,originY,collumnSize):
+    """prints a state of the spreadsheet"""
     screenSize = os.get_terminal_size()
-    
+    printList = []
+    collumnAmmount = screenSize[0]//collumnSize
+    collumns = []
+    for line in range(originY,(len(spreadsheet),originY+screenSize[1])):
+        collumns.append()
 
 def makeSquarePrintable(value,collumnSize):
     """
@@ -14,7 +19,9 @@ def makeSquarePrintable(value,collumnSize):
     while len(valueSTR) > collumnSize:
         finalList.append(valueSTR[:collumnSize])
         valueSTR = valueSTR[collumnSize:]
-    finalList.append(valueSTR)
+        
+    finalSTR = " "*(collumnSize-len(valueSTR)) + valueSTR
+    finalList.append(finalSTR)
     return finalList
 
 def makeLinePrintable(valuesList,collumnSize):
@@ -29,10 +36,22 @@ def makeLinePrintable(valuesList,collumnSize):
         middleList.append(makeSquarePrintable(value,collumnSize))
     
     finalList = invertDimentions(middleList)
+    for line in finalList:
+        for val in line:
+            if line == None:
+                line = " "*collumnSize
     return finalList
 
-def generateHeader(originX,collumnAmmount):
-    pass
+def generateHeader(originX,collumnAmmount,collumnSize):
+    return [Tbackground(196,196,196," "*collumnSize)]
+
+
+
+
+
+
+
+
 
 
 
