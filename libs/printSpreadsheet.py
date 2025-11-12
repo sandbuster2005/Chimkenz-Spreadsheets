@@ -1,4 +1,4 @@
-from terminal import Tbackground  #¯\_(ツ)_/¯
+from terminal import background  #¯\_(ツ)_/¯
 import os
 
 def printscreen(spreadsheet,originX,originY,collumnSize):
@@ -11,17 +11,17 @@ def printscreen(spreadsheet,originX,originY,collumnSize):
     printList = []                          #list of all the terminal lines it COULD print, might not print them all
     collumnAmmount = screenSize[0]//collumnSize
     usefulLines = []
-    for line in range(originY,(len(spreadsheet),originY+screenSize[1])):
-        usefulLines.append(line[originX:min(originX+screenSize,len(line)-1)])
+    for line in range(originY,min(len(spreadsheet),originY+screenSize[1])):
+        usefulLines.append(spreadsheet[line][originX:min(originX+screenSize[0],len(spreadsheet[line])-1)])
     
-    for line in usefulLines:
-        for termLine in makeLinePrintable(line):
+    for line in range(len(usefulLines)):
+        for termLine in makeLinePrintable(usefulLines[line],collumnSize,collumnAmmount,line):
             printList.append(termLine)
             
     for i in range(min(len(printList),screenSize[1])):
         print(printList[i])
-        
-        
+
+
 def makeSquarePrintable(value,collumnSize):
     """
     ya give this the value of a square and your options and it gives you wat to print and how many lines
@@ -36,40 +36,47 @@ def makeSquarePrintable(value,collumnSize):
     finalList.append(finalSTR)
     return finalList
 
-def makeLinePrintable(valuesList,collumnSize):
+def makeLinePrintable(valuesList,collumnSize,collumnsAmmount,lineNumber):
     """
     beeg list of all the values is given
     gives a list of strings
     each string is a line to print in the terminal
     """
     middleList = []
-    for value in valuesList:
-        middleList.append(makeSquarePrintable(value,collumnSize))
+    for value in range(min(len(valuesList),collumnsAmmount)):
+        middleList.append(makeSquarePrintable(valuesList[value],collumnSize))
     
     finalList = []
     middleList = invertDimentions(middleList)
     for line in middleList:
         linestring = ""
-        for val in line:
-            if val == None:
+        for i in range(len(line)):
+            squareColor = 234 + (((lineNumber+i)%2)*6)
+            linestring = linestring + generateSetBGColorString(squareColor)
+            if line[i] == None:
                 linestring = linestring + " "*collumnSize
             else:
-                linestring = linestring + val
+                linestring = linestring + line[i]
         finalList.append(linestring)
     return finalList
 
-def generateHeader(originX,collumnAmmount,collumnSize):
-    return [Tbackground(196,196,196," "*collumnSize)]
+
+def generateHeader(originX,collumnAmmount,collumnSize):               #not made yet
+    return [background(255," "*collumnSize)] * collumnAmmount
+
+
+def generateSetBGColorString(ID):
+    return f"\x1b[48;5;{ID}m"
+
+    #The table starts with the original 16 colors (0-15).
+    #The proceeding 216 colors (16-231) or formed by a 3bpc RGB value offset by 16, packed into a single value.
+    #The final 24 colors (232-255) are grayscale starting from a shade slighly lighter than black, ranging up to shade slightly darker than white.
 
 
 
-
-
-
-
-
-
-
+def resetBGColor():
+    sys.stdout.write(f"\x1b[11;\007")
+    sys.stdout.flush()
 
 
 
@@ -95,7 +102,20 @@ def invertDimentions(liste):
     finalList.pop(-1)
     return finalList
     
-    
+
+
+
+
+
+printscreen([[9.123456789,2,3,4,5,6,6],
+             [2,2,2,2,2,2,2],
+             [9,8,7,6,6,5,4],
+             [9,9,9,912345678901234567890,9,9,9],
+             [1,1,1,1,2,2,2],
+             [1,2,3,4,5,6,7],
+             [0,0,0,0,0,0,0]],0,0,15)
+
+
     
     
     
