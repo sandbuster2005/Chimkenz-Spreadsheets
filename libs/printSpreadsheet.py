@@ -1,7 +1,8 @@
 from terminal import background  #¯\_(ツ)_/¯
 import os
 import sys
-#j
+import baseconvert
+
 def printscreen(spreadsheet,originX,originY,collumnSize):
     """
     prints a state of the spreadsheet
@@ -16,6 +17,7 @@ def printscreen(spreadsheet,originX,originY,collumnSize):
         usefulLines.append(spreadsheet[line][originX:min(originX+screenSize[0],len(spreadsheet[line])-1)])
     
     for line in range(len(usefulLines)):
+        printList.append(generateHeader(originX,collumnAmmount,collumnSize))
         for termLine in makeLinePrintable(usefulLines[line],collumnSize,collumnAmmount,line):
             printList.append(termLine)
             
