@@ -1,13 +1,11 @@
-from main import ChimkenzSpreadsheet
-
 class Grid:
 	def __init__(self,width,height):
 		"""basically, this is a big, 2 dimensions list of the squares defined bellow"""
 		self.width = width
 		self.height = height
-		self.content = [[Square() for _  in range(width)]for _ in range(height)]
+		self.content = [[Square(self) for _  in range(width)]for _ in range(height)]
 
-	def __str__(self):                         #never tried, might not work, who would try to print that anyways?
+	def __str__(self):                         #never tried, might not work, who would want to print that anyways?
 		finalList = []
 		for liste in self.content:
 			finalList.append(" | ".join(liste))
@@ -32,10 +30,13 @@ class Grid:
 		return row,int(collumn)
 
 
+
+
 class Square:
-	def __init__(self):
+	def __init__(self,grid):
 		self.content = ""
 		self.value = 0
+		self.grid = grid
 
 	def __str__(self):
 		return f"{self.content} = {self.updateValue()}"
